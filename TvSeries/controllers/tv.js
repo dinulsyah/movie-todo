@@ -52,7 +52,6 @@ class tvController{
             tag, 
             status 
         }
-        
         Tv
             .findOneAndUpdate({ _id: req.params.id }, data , { new: true })
             .then((updatedTvSeries) => { res.status(200).json({ message: 'Updated Tv Series!', updatedTvSeries }) })
