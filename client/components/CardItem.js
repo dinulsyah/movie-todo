@@ -60,6 +60,16 @@ const CardItem = (props) => {
                         )}
                     </Mutation>
                 </View>
+                <View>
+                    <Button
+                        icon={<Icon name="assignment" color='#ffffff' />}
+                        buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 10, backgroundColor: "#0facf3" }}
+                        title='UPDATE NOW'
+                        onPress={() => props.navigation.navigate("Create", {
+                            itemId: props.item._id,
+                            query:'tv'
+                    })} />
+                </View>
             </Card>
         </View>
     )

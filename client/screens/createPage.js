@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, SafeAreaView} from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight, SafeAreaView, ActivityIndicator} from 'react-native';
 import { FormLabel, Input, FormValidationMessage, ButtonGroup } from 'react-native-elements'
 import { gql } from "apollo-boost";
-import { Mutation } from "react-apollo";
+import { Mutation , Query} from "react-apollo";
+import Update from '../components/Update'
 
 const ADD_MOVIE = gql`
 mutation($title: String, $popularity: Float, $poster_path: String, $overview:String, $status:String){
@@ -53,6 +54,35 @@ const REFETCH_SERIES = gql`{
     }
   }`
 
+const GET_ONE_MOVIE = gql`
+  query($id: ID!){
+      findOneMovie(_id:$id)
+          {
+              _id
+              title
+              popularity,
+              overview,
+              poster_path,
+              tag,
+              status,
+              createdAt
+          }
+}`
+
+const GET_ONE_SERIES = gql`
+query TvSeries($id: ID!) {
+    findOneTvSeries(_id:$id)
+        {
+            _id
+            title
+            popularity,
+            overview,
+            poster_path,
+            tag,
+            status,
+            createdAt
+        }
+}`
 
 export default class createPage extends Component {
     constructor(props) {
@@ -90,8 +120,17 @@ export default class createPage extends Component {
     render() {
         const buttons = ['Movie', 'TvSeries']
         const { selectedIndex } = this.state
-
+        const itemId = this.props.navigation.getParam('itemId', 'NO-ID');
+        if(this.props.navigation.getParam('query') === 'tv'){    
+            var graphQuery = GET_ONE_SERIES
+            var condition = "tv"
+        }
+        else{
+            var graphQuery = GET_ONE_MOVIE
+            var condition = "movie"
+        }
         return (
+            (!itemId) ?
             <Fragment>
                 <ButtonGroup
                     onPress={this.updateIndex}
@@ -174,6 +213,32 @@ export default class createPage extends Component {
                         </Mutation>
                 }
             </Fragment>
+            : <Query
+                    query={graphQuery}
+                    variables={{
+                        id: itemId
+                    }}
+                >
+                {
+                    ({loading,error,data}) => {
+                        return(
+                            <View>
+                            { loading && <ActivityIndicator style={style.container} size="large" color="#e5e5e5"/>}
+                            { !loading && data && <View>{
+                                (condition === 'movie')
+                                ?
+                                <Update data={data.findOneMovie} type={'movie'} navigation={this.props.navigation}></Update>
+                                :
+                                <Update data={data.findOneTvSeries} type={'tv'} navigation={this.props.navigation}></Update>
+                                }
+                                </View>
+                            }
+                            {!loading && error && <Text>Failed to Get Data...</Text>}
+                            </View>
+                        )
+                    }
+                }
+                </Query>
         )
     }
 }
