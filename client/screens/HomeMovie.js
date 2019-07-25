@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import MoviePage from './MoviePage'
+import { NavigationEvents } from 'react-navigation'
 
 const GET_ALL_MOVIES = gql`{
     allMovie {
@@ -24,7 +25,7 @@ export default class HomeMovie extends Component {
                 <Query
                 query={GET_ALL_MOVIES}>
                 {
-                    ({loading,error,data}) => {
+                    ({loading,error,data,refetch}) => {
                         return(
                             <View>
                             {loading && <Text>Loading</Text>}

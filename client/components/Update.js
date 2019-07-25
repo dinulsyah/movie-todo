@@ -76,14 +76,15 @@ export default class Update extends Component {
     }
 
     render() {
-        console.log(this.props.data)
-        if(this.props.data.type == 'tv'){
-            var query = UPDATE_ONE_TV
-            var refetch = REFETCH_SERIES
+        var query
+        var refetch
+        if(this.props.type == 'tv'){
+            query = UPDATE_ONE_TV
+            refetch = REFETCH_SERIES
         }
         else{
-            var query = UPDATE_ONE_MOVIE
-            var refetch = REFETCH_MOVIE
+            query = UPDATE_ONE_MOVIE
+            refetch = REFETCH_MOVIE
         }
         return (
         <View style={{flex: 1, borderWidth: 1, borderColor: 'black', alignItems: 'center', marginTop:30}}>
@@ -148,7 +149,7 @@ export default class Update extends Component {
                                         query: refetch
                                     }]
                                 })
-                                if(this.props.data.type  == 'tv'){
+                                if(this.props.type  == 'tv'){
                                     this.props.navigation.navigate('HomeTv')
                                 }
                                 else{

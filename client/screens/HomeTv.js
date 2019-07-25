@@ -3,6 +3,7 @@ import { Text, View, ActivityIndicator, StyleSheet, ScrollView} from 'react-nati
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import TvPage from './TvPage';
+import { NavigationEvents } from 'react-navigation'
 
 const GET_ALL_SERIES = gql`{
     allTvSeries{
@@ -26,9 +27,14 @@ export default class HomeTv extends Component {
                 query={GET_ALL_SERIES}
                 >
                 {
-                    ({loading,error,data}) => {
+                    ({loading,error,data, refetch}) => {
                         return(
                             <View>
+                            <NavigationEvents
+                                onWillFocus={() => {
+                                    refetch()
+                                }}
+                            />
                             { loading && <ActivityIndicator style={styles.container} size="large" color="#e5e5e5"/>}
                             { !loading && data && <TvPage data={JSON.stringify(data)} navigation={this.props.navigation}></TvPage>}
                             {!loading && error && <Text>Failed to Get Data...</Text>}

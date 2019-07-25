@@ -6,6 +6,7 @@ import React from 'react';
 import TvDetail from '../screens/DetailSeries';
 import createPage from '../screens/createPage';
 import MovieDetail from '../screens/DetailMovie';
+import EditPage from '../screens/EditPage'
 
 const movieNavigator = createStackNavigator({
   HomeMovie:{
@@ -28,6 +29,17 @@ const tvNavigator = createStackNavigator({
   }
 },{
   initialRouteName:'HomeTv'
+})
+
+const createNavigator = createStackNavigator({
+  Create:{
+    screen:createPage
+  },
+  Edit:{
+    screen:EditPage
+  }
+},{
+  initialRouteName:'Create'
 })
 
 const mainNavigator = createBottomTabNavigator({
@@ -56,7 +68,7 @@ const mainNavigator = createBottomTabNavigator({
     })
   },
   Create:{
-      screen:createPage,
+      screen:createNavigator,
       navigationOptions: () => ({
         tabBarIcon: ({tintColor}) => (
             <Icon

@@ -56,6 +56,7 @@ const CardItem = (props) => {
                                         query: REFETCH_QUERY
                                     }]
                                 })
+                                this.props.navigation.navigate('HomeMovie')
                             }}/>
                         )}
                     </Mutation>
@@ -65,7 +66,7 @@ const CardItem = (props) => {
                         icon={<Icon name="assignment" color='#ffffff' />}
                         buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 10, backgroundColor: "#0facf3" }}
                         title='UPDATE NOW'
-                        onPress={() => props.navigation.navigate("Create", {
+                        onPress={() => props.navigation.navigate("Edit", {
                             itemId: props.item._id,
                             query:'movie'
                     })} />

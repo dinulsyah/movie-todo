@@ -12,6 +12,7 @@ export default class TvPage extends Component {
     }
 
     render() {
+        console.log(this.props.data)
         if (this.props.data) {
             const parse = JSON.parse(this.props.data)
             const data = parse.allTvSeries
