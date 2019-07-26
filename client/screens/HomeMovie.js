@@ -28,8 +28,15 @@ export default class HomeMovie extends Component {
                     ({loading,error,data,refetch}) => {
                         return(
                             <View>
+                            <NavigationEvents
+                                onWillFocus={() => {
+                                    // console.log('tertriggerrrr refetch')
+                                    // console.log(data)
+                                    refetch()
+                                }}
+                            /> 
                             {loading && <Text>Loading</Text>}
-                            {!loading && data && <MoviePage data={JSON.stringify(data)} navigation={this.props.navigation}></MoviePage>}
+                            {!loading && data && <MoviePage data={data} navigation={this.props.navigation}></MoviePage>}
                             {!loading && error && <Text>{JSON.stringify(error)}</Text>}
                             </View>
                         )

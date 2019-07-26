@@ -9,11 +9,11 @@ const GET_ALL_SERIES = gql`{
     allTvSeries{
         _id
         title
-        popularity,
-        overview,
-        poster_path,
-        tag,
-        status,
+        popularity
+        overview
+        poster_path
+        tag
+        status
         createdAt
       }
 }`
@@ -23,9 +23,7 @@ export default class HomeTv extends Component {
         return (
             <ScrollView>
             <View>
-                <Query
-                query={GET_ALL_SERIES}
-                >
+                <Query query={GET_ALL_SERIES}>
                 {
                     ({loading,error,data, refetch}) => {
                         return(
@@ -36,7 +34,7 @@ export default class HomeTv extends Component {
                                 }}
                             />
                             { loading && <ActivityIndicator style={styles.container} size="large" color="#e5e5e5"/>}
-                            { !loading && data && <TvPage data={JSON.stringify(data)} navigation={this.props.navigation}></TvPage>}
+                            { !loading && data && <TvPage data={data} navigation={this.props.navigation}></TvPage>}
                             {!loading && error && <Text>Failed to Get Data...</Text>}
                             </View>
                         )

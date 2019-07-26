@@ -7,15 +7,28 @@ export default class TvPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            text: ''
+            text: '',
+            data:[]
         }
     }
 
+    componentDidMount(){
+        this.setState({
+            data:this.props.data
+        })
+    }
+
+    componentDidUpdate(prevProps){
+        if (prevProps.data !== this.props.data) {
+            this.setState({
+                data:this.props.data
+            })
+          }
+    }
+
     render() {
-        if (this.props.data) {
-            const parse = JSON.parse(this.props.data)
-            const data = parse.allMovie
-            var filteredItem = data.filter(
+        if (this.state.data.allMovie) {
+            var filteredItem = this.state.data.allMovie.filter(
                 (item) => {
                     const Movies = item.title.toLowerCase()
                     return Movies.indexOf(this.state.text.toLowerCase()) !== -1;

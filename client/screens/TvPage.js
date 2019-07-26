@@ -3,20 +3,33 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 import CardItem from '../components/CardItem'
 import { SearchBar, Avatar, Header} from 'react-native-elements';
 
+
 export default class TvPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            text: ''
+            text: '',
+            data:[]
         }
     }
 
+    componentDidMount(){
+        this.setState({
+            data:this.props.data
+        })
+    }
+
+    componentDidUpdate(prevProps){
+        if (prevProps.data !== this.props.data) {
+            this.setState({
+                data:this.props.data
+            })
+          }
+    }
+
     render() {
-        console.log(this.props.data)
-        if (this.props.data) {
-            const parse = JSON.parse(this.props.data)
-            const data = parse.allTvSeries
-            var filteredItem = data.filter(
+        if (this.state.data.allTvSeries) {
+            var filteredItem = this.state.data.allTvSeries.filter(
                 (item) => {
                     const TvSeries = item.title.toLowerCase()
                     return TvSeries.indexOf(this.state.text.toLowerCase()) !== -1;

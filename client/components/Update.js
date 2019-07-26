@@ -15,8 +15,7 @@ const UPDATE_ONE_TV = gql`mutation($id: ID!,$title: String, $popularity: Float, 
     }
 }`
 
-const UPDATE_ONE_MOVIE = gql`
-    mutation($id: ID!,$title: String, $popularity: Float, $poster_path: String, $overview:String, $status:String){
+const UPDATE_ONE_MOVIE = gql`mutation($id: ID!,$title: String, $popularity: Float, $poster_path: String, $overview:String, $status:String){
     updateMovie(_id:$id,title:$title,popularity:$popularity, poster_path:$poster_path,overview:$overview,status:$status)
     {
         title
@@ -27,7 +26,7 @@ const UPDATE_ONE_MOVIE = gql`
     }
 }`
 
-const REFETCH_MOVIE = gql` {
+const REFETCH_MOVIE = gql`{
     allMovie{
       _id
       title
@@ -128,7 +127,7 @@ export default class Update extends Component {
             width={300}
             height={50}
           />
-          <Mutation mutation={query}>
+          <Mutation mutation={query} >
           {
                 (updateMovie, { data }) => {
                         return (
@@ -147,7 +146,7 @@ export default class Update extends Component {
                                     },
                                     refetchQueries: [{
                                         query: refetch
-                                    }]
+                                    }] 
                                 })
                                 if(this.props.type  == 'tv'){
                                     this.props.navigation.navigate('HomeTv')

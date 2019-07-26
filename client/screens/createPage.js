@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, TouchableHighlight, SafeAreaView, ActivityIndic
 import { FormLabel, Input, FormValidationMessage, ButtonGroup } from 'react-native-elements'
 import { gql } from "apollo-boost";
 import { Mutation , Query} from "react-apollo";
-import Update from '../components/Update'
 
 const ADD_MOVIE = gql`
 mutation($title: String, $popularity: Float, $poster_path: String, $overview:String, $status:String){
@@ -31,7 +30,7 @@ mutation($title: String, $popularity: Float, $poster_path: String, $overview:Str
     }
 }`
 
-const REFETCH_MOVIE = gql` {
+const REFETCH_MOVIE = gql`{
     allMovie{
       _id
       title
@@ -54,7 +53,7 @@ const REFETCH_SERIES = gql`{
     }
   }`
 
-export default class createPage extends Component {
+class createPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -71,11 +70,11 @@ export default class createPage extends Component {
     }
 
     updateIndex(selectedIndex) {
+        console.log(selectedIndex)
         this.setState({ selectedIndex })
     }
 
     clear() {
-        console.log('masuk')
         this.setState({
             title: '',
             overview: '',
@@ -123,6 +122,12 @@ export default class createPage extends Component {
                                                             popularity: Number(this.state.popularity),
                                                             status: this.state.status
                                                         },
+                                                        // refetchQueries:[{
+                                                        //     query:REFETCH_SERIES,
+                                                        //     variables:{
+                                                        //         awaitRefetchQueries: true
+                                                        //     }
+                                                        // }]
                                                         refetchQueries: [{
                                                             query: REFETCH_SERIES
                                                         }]
@@ -158,8 +163,8 @@ export default class createPage extends Component {
                                                             popularity: Number(this.state.popularity),
                                                             status: this.state.status,
                                                         },
-                                                        refetchQueries: [{
-                                                            query: REFETCH_MOVIE
+                                                        refetchQueries:[{
+                                                            query:REFETCH_MOVIE,
                                                         }]
                                                     })
                                                     this.props.navigation.navigate('HomeMovie')
@@ -201,3 +206,4 @@ const style = StyleSheet.create({
         borderRadius: 13
     },
 })
+export default createPage

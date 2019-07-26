@@ -5,8 +5,7 @@ import { Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
 
 const CardItem = (props) => {
-    const REFETCH_QUERY = gql`
-      {
+    const REFETCH_QUERY = gql`{
         allTvSeries{
             title
             popularity,
@@ -15,8 +14,8 @@ const CardItem = (props) => {
             status,
             createdAt
         }
-      }
-    `
+      }`
+
     return (
         <View>
             <Card
@@ -31,10 +30,11 @@ const CardItem = (props) => {
                         buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 10, backgroundColor: "#0facf3" }}
                         title='VIEW NOW'
                         onPress={() => props.navigation.navigate("TvDetail", {
-                            itemId: props.item._id
+                            itemId: props.item._id,
+                            type:'tv'
                         })} />
                     <Mutation mutation={gql`mutation{
-                         deleteTvSeries(_id: "${props.item._id}" ) {
+                         deleteTvSeries(_id: "${props.item._id}"){
                             _id
                             title
                             overview
@@ -53,10 +53,12 @@ const CardItem = (props) => {
                              onPress={() => {
                                 deleteTvSeries({
                                     refetchQueries: [{
-                                        query: REFETCH_QUERY
+                                        query: REFETCH_QUERY,
+                                        variables:{
+                                            awaitRefetchQueries: true
+                                        }
                                     }]
                                 })
-                                this.props.navigation.navigate('HomeTv')
                             }}/>
                         )}
                     </Mutation>
