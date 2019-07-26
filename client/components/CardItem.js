@@ -5,16 +5,16 @@ import { Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
 
 const CardItem = (props) => {
-    const REFETCH_QUERY = gql`{
-        allTvSeries{
-            title
-            popularity,
-            overview,
-            poster_path,
-            status,
-            createdAt
-        }
-      }`
+    // const REFETCH_QUERY = gql`{
+    //     allTvSeries{
+    //         title
+    //         popularity,
+    //         overview,
+    //         poster_path,
+    //         status,
+    //         createdAt
+    //     }
+    //   }`
 
     return (
         <View>
@@ -33,7 +33,15 @@ const CardItem = (props) => {
                             itemId: props.item._id,
                             type:'tv'
                         })} />
-                    <Mutation mutation={gql`mutation{
+                     <Button
+                        icon={<Icon name="assignment" color='#ffffff' />}
+                        buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 10, backgroundColor: "#0facf3" }}
+                        title='UPDATE NOW'
+                        onPress={() => props.navigation.navigate("Edit", {
+                            itemId: props.item._id,
+                            query:'tv'
+                    })} />
+                    {/* <Mutation mutation={gql`mutation{
                          deleteTvSeries(_id: "${props.item._id}"){
                             _id
                             title
@@ -61,9 +69,9 @@ const CardItem = (props) => {
                                 })
                             }}/>
                         )}
-                    </Mutation>
+                    </Mutation> */}
                 </View>
-                <View>
+                {/* <View>
                     <Button
                         icon={<Icon name="assignment" color='#ffffff' />}
                         buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 10, backgroundColor: "#0facf3" }}
@@ -72,7 +80,7 @@ const CardItem = (props) => {
                             itemId: props.item._id,
                             query:'tv'
                     })} />
-                </View>
+                </View> */}
             </Card>
         </View>
     )

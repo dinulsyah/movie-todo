@@ -1,5 +1,19 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { Mutation } from 'react-apollo'
+import { gql } from 'apollo-boost'
+import { Card, Button, Icon, Badge } from 'react-native-elements';
+
+const REFETCH_QUERY = gql`{
+    allTvSeries{
+        title
+        popularity,
+        overview,
+        poster_path,
+        status,
+        createdAt
+    }
+  }`
 
 export default class Detail extends Component {
     constructor(props) {
@@ -24,7 +38,38 @@ export default class Detail extends Component {
                     <Text style={style.title}>{data.title}</Text>
                     <View style={style.descriptionInfo}>
                         <Text style={style.description}>{data.overview}</Text>
+                        <Mutation mutation={gql`mutation{
+                         deleteTvSeries(_id: "${this.props.item}"){
+                            _id
+                            title
+                            overview
+                            poster_path
+                            popularity
+                            status
+                            createdAt
+                            updatedAt
+                        }
+                    }`}>
+                    {(deleteTvSeries, { data }) => (
+                             <Button
+                             icon={<Icon name="delete" color='#ffffff' />}
+                             buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, marginTop: 10, backgroundColor: "#eb4335" }}
+                             title='DELETE NOW'
+                             onPress={() => {
+                                deleteTvSeries({
+                                    refetchQueries: [{
+                                        query: REFETCH_QUERY,
+                                        variables:{
+                                            awaitRefetchQueries: true
+                                        }
+                                    }]
+                                })
+                                this.props.navigation.navigate('HomeTv')
+                            }}/>
+                        )}
+                    </Mutation>
                     </View>
+
                 </View>
             </ScrollView>
         )
