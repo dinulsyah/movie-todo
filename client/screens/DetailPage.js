@@ -57,14 +57,16 @@ export default class Detail extends Component {
                              title='DELETE NOW'
                              onPress={() => {
                                 deleteTvSeries({
-                                    refetchQueries: [{
-                                        query: REFETCH_QUERY,
-                                        variables:{
-                                            awaitRefetchQueries: true
-                                        }
-                                    }]
+                                    // refetchQueries: [{
+                                    //     query: REFETCH_QUERY,
+                                    //     variables:{
+                                    //         awaitRefetchQueries: true
+                                    //     }
+                                    // }]
                                 })
-                                this.props.navigation.navigate('HomeTv')
+                                this.props.navigation.navigate('HomeTv',{
+                                    type:'mutate'
+                                })
                             }}/>
                         )}
                     </Mutation>

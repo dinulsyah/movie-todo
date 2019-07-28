@@ -86,6 +86,7 @@ class createPage extends Component {
         })
     }
 
+
     render() {
         const buttons = ['Movie', 'TvSeries']
         const { selectedIndex } = this.state
@@ -105,12 +106,22 @@ class createPage extends Component {
                                     return (
                                         <Fragment>
                                             <View style={style.container}>
-                                                <Text style={style.title}>Create New Movie or Tv Series</Text>
-                                                <Input label={'Title'} onChangeText={(title) => this.setState({ title })}/>
-                                                <Input multiline={true} numberOfLines={4} label={'Overview'} onChangeText={(overview) => this.setState({ overview })} />
-                                                <Input label={'Poster_Path'} onChangeText={this.oke} onChangeText={(poster_path) => this.setState({ poster_path })} />
-                                                <Input label={'Popularity'} onChangeText={this.oke} onChangeText={(popularity) => this.setState({ popularity })} />
-                                                <Input label={'Status'} onChangeText={this.oke} onChangeText={(status) => this.setState({ status })} />
+                                                <Text style={style.title}>Create New Tv Series</Text>
+                                                <Input label={'Title'} onChangeText={(title) => this.setState({ title })} ref={(input) => {
+                                                    this.textInput = input
+                                                }}/>
+                                                <Input multiline={true} numberOfLines={4} label={'Overview'} onChangeText={(overview) => this.setState({ overview })} ref={(input) => {
+                                                    this.textOverview = input
+                                                }}/>
+                                                <Input label={'Poster_Path'} onChangeText={this.oke} onChangeText={(poster_path) => this.setState({ poster_path })} ref={(input) => {
+                                                    this.textPoster = input
+                                                }}/>
+                                                <Input label={'Popularity'} onChangeText={this.oke} onChangeText={(popularity) => this.setState({ popularity })} ref={(input) => {
+                                                    this.textPopularity = input
+                                                }}/>
+                                                <Input label={'Status'} onChangeText={this.oke} onChangeText={(status) => this.setState({ status })} ref={(input) => {
+                                                    this.textStatus = input
+                                                }}/>
                                             </View>
                                             <TouchableHighlight
                                                 style={style.button} onPress={() => {
@@ -122,17 +133,19 @@ class createPage extends Component {
                                                             popularity: Number(this.state.popularity),
                                                             status: this.state.status
                                                         },
-                                                        // refetchQueries:[{
-                                                        //     query:REFETCH_SERIES,
-                                                        //     variables:{
-                                                        //         awaitRefetchQueries: true
-                                                        //     }
-                                                        // }]
                                                         refetchQueries: [{
                                                             query: REFETCH_SERIES
                                                         }]
                                                     })
-                                                    this.props.navigation.navigate('HomeTv')
+                                                    this.textInput.clear()
+                                                    this.textOverview.clear()
+                                                    this.textPopularity.clear()
+                                                    this.textPoster.clear()
+                                                    this.textStatus.clear()
+                                                    this.clear()
+                                                    this.props.navigation.navigate('HomeTv',{
+                                                        type:'mutate'
+                                                    })
                                                 }}>
                                                 <Text style={{ color: 'white', fontFamily: 'Futura-Medium', fontSize: 15 }}> Create </Text>
                                             </TouchableHighlight>
@@ -146,12 +159,22 @@ class createPage extends Component {
                                     return (
                                         <Fragment>
                                             <View style={style.container}>
-                                                <Text style={style.title}>Create New Movie or Tv Series</Text>
-                                                <Input label={'Title'} onChangeText={(title) => this.setState({ title })} value={this.state.title}/>
-                                                <Input multiline={true} numberOfLines={4} label={'Overview'} onChangeText={(overview) => this.setState({ overview })} />
-                                                <Input label={'Poster_Path'} onChangeText={this.oke} onChangeText={(poster_path) => this.setState({ poster_path })} />
-                                                <Input label={'Popularity'} onChangeText={this.oke} onChangeText={(popularity) => this.setState({ popularity })} />
-                                                <Input label={'Status'} onChangeText={this.oke} onChangeText={(status) => this.setState({ status })} />
+                                                <Text style={style.title}>Create New Movie</Text>
+                                                <Input label={'Title'} onChangeText={(title) => this.setState({ title })} value={this.state.title} ref={(input) => {
+                                                    this.textInputM = input
+                                                }}/>
+                                                <Input multiline={true} numberOfLines={4} label={'Overview'} onChangeText={(overview) => this.setState({ overview })} ref={(input) => {
+                                                    this.textOverviewM = input
+                                                }}/>
+                                                <Input label={'Poster_Path'} onChangeText={this.oke} onChangeText={(poster_path) => this.setState({ poster_path })} ref={(input) => {
+                                                    this.textPosterM = input
+                                                }}/>
+                                                <Input label={'Popularity'} onChangeText={this.oke} onChangeText={(popularity) => this.setState({ popularity })} ref={(input) => {
+                                                    this.textPopularityM = input
+                                                }}/>
+                                                <Input label={'Status'} onChangeText={this.oke} onChangeText={(status) => this.setState({ status })} ref={(input) => {
+                                                    this.textStatusM = input
+                                                }}/>
                                             </View>
                                             <TouchableHighlight
                                                 style={style.button} onPress={() => {
@@ -167,7 +190,15 @@ class createPage extends Component {
                                                             query:REFETCH_MOVIE,
                                                         }]
                                                     })
-                                                    this.props.navigation.navigate('HomeMovie')
+                                                    this.textInputM.clear()
+                                                    this.textOverviewM.clear()
+                                                    this.textPopularityM.clear()
+                                                    this.textPosterM.clear()
+                                                    this.textStatusM.clear()
+                                                    this.clear()
+                                                    this.props.navigation.navigate('HomeMovie',{
+                                                        type:'mutate'
+                                                    })
                                                 }}>
                                                 <Text style={{ color: 'white', fontFamily: 'Futura-Medium', fontSize: 15 }}> Create </Text>
                                             </TouchableHighlight>
@@ -187,7 +218,7 @@ const style = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 10
+        paddingTop: 10,
     },
     title: {
         fontSize: 24,

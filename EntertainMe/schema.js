@@ -1,8 +1,8 @@
 const gql = require('graphql')
 const movieSchema = require('./types/movies')
 const tvSchema = require('./types/tvseries')
-const redis = require('redis')
-const client = redis.createClient()
+// const redis = require('redis')
+// const client = redis.createClient()
 const movieHost = 'http://localhost:3001/movies'
 const tvHost = 'http://localhost:3002/tv'
 const axios = require('axios')
@@ -14,47 +14,51 @@ const Schema = new gql.GraphQLSchema({
             allMovie:{
                 type: new gql.GraphQLList(movieSchema),
                 async resolve(){
-                    return await new Promise((resolve, reject) => {
-                      client.get('Movie', async (err, reply) => {
-                        if(err) {
-                          reject(err)
-                        }
-                        else {
-                          if(reply) {
-                            const response = JSON.parse(reply)
-                            resolve(response.movies)
-                          }
-                          else {
-                            const { data } = await axios.get(movieHost)
-                            client.set('Movie', JSON.stringify(data),'EX', 60),
-                            resolve(data.movies)
-                          }
-                        }
-                      })
-                    })
+                    const { data } = await axios.get(movieHost)
+                    return data.movies
+                    // return await new Promise((resolve, reject) => {
+                    //   client.get('Movie', async (err, reply) => {
+                    //     if(err) {
+                    //       reject(err)
+                    //     }
+                    //     else {
+                    //       if(reply) {
+                    //         const response = JSON.parse(reply)
+                    //         resolve(response.movies)
+                    //       }
+                    //       else {
+                    //         const { data } = await axios.get(movieHost)
+                    //         client.set('Movie', JSON.stringify(data),'EX', 60),
+                    //         resolve(data.movies)
+                    //       }
+                    //     }
+                    //   })
+                    // })
                 }
             },
             allTvSeries:{
                 type: new gql.GraphQLList(tvSchema),
                 async resolve(){
-                    return await new Promise((resolve,reject) => {
-                        client.get('TvSeries', async (err, reply) => {
-                            if(err) {
-                              reject(err)
-                            }
-                            else {
-                              if(reply) {
-                                const response = JSON.parse(reply)
-                                resolve(response.series)
-                              }
-                              else {
-                                const { data } = await axios.get(tvHost)
-                                client.set('TvSeries', JSON.stringify(data),'EX', 60),
-                                resolve(data.series)
-                              }
-                            }
-                          })
-                    })
+                    const { data } = await axios.get(tvHost)
+                    return data.series
+                    // return await new Promise((resolve,reject) => {
+                    //     client.get('TvSeries', async (err, reply) => {
+                    //         if(err) {
+                    //           reject(err)
+                    //         }
+                    //         else {
+                    //           if(reply) {
+                    //             const response = JSON.parse(reply)
+                    //             resolve(response.series)
+                    //           }
+                    //           else {
+                    //             const { data } = await axios.get(tvHost)
+                    //             client.set('TvSeries', JSON.stringify(data),'EX', 60),
+                    //             resolve(data.series)
+                    //           }
+                    //         }
+                    //     })
+                    // })
                 }
             },
             findOneMovie:{
@@ -94,8 +98,8 @@ const Schema = new gql.GraphQLSchema({
                 },
                 async resolve(_previous,args){
                     const { data } = await axios.post(movieHost, args)
-                    const movies = await axios.get(movieHost)
-                    client.set('Movie', JSON.stringify(movies.data), 'EX', 60)
+                    // const movies = await axios.get(movieHost)
+                    // client.set('Movie', JSON.stringify(movies.data), 'EX', 60)
                     return data.createdMovie
                 }
             },
@@ -112,8 +116,8 @@ const Schema = new gql.GraphQLSchema({
                 },
                 async resolve(_previous,args){
                     const { data } = await axios.put(`${movieHost}/${args._id}`, args)
-                    const movies = await axios.get(movieHost)
-                    client.set('Movie', JSON.stringify(movies.data), 'EX', 60)
+                    // const movies = await axios.get(movieHost)
+                    // client.set('Movie', JSON.stringify(movies.data), 'EX', 60)
                     return data.updatedMovie
                 }
             },
@@ -124,8 +128,8 @@ const Schema = new gql.GraphQLSchema({
                 },
                 async resolve(_previous,args){
                     const { data } = await axios.delete(`${movieHost}/${args._id}`)
-                    const movies = await axios.get(movieHost)
-                    client.set('Movie', JSON.stringify(movies.data), 'EX', 60)
+                    // const movies = await axios.get(movieHost)
+                    // client.set('Movie', JSON.stringify(movies.data), 'EX', 60)
                     return data.deletedMovie
                 }
             },
@@ -141,8 +145,8 @@ const Schema = new gql.GraphQLSchema({
                 },
                 async resolve(_previous,args){
                     const { data } = await axios.post(tvHost, args)
-                    const tvSeries = await axios.get(tvHost)
-                    client.set('Movie', JSON.stringify(tvSeries.data), 'EX', 60)
+                    // const tvSeries = await axios.get(tvHost)
+                    // client.set('Movie', JSON.stringify(tvSeries.data), 'EX', 60)
                     return data.createdTvSeries
                 }
             },
@@ -159,8 +163,8 @@ const Schema = new gql.GraphQLSchema({
                 },
                 async resolve(_previous,args){
                     const { data } = await axios.put(`${tvHost}/${args._id}`, args)
-                    const tvSeries = await axios.get(tvHost)
-                    client.set('Movie', JSON.stringify(tvSeries.data), 'EX', 60)
+                    //const tvSeries = await axios.get(tvHost)
+                    //client.set('Movie', JSON.stringify(tvSeries.data), 'EX', 60)
                     return data.updatedTvSeries
                 }
             },
@@ -171,8 +175,8 @@ const Schema = new gql.GraphQLSchema({
                 },
                 async resolve(_previous,args){
                     const { data } = await axios.delete(`${tvHost}/${args._id}`)
-                    const tvSeries = await axios.get(tvHost)
-                    client.set('Movie', JSON.stringify(tvSeries.data), 'EX', 60)
+                    //const tvSeries = await axios.get(tvHost)
+                    //client.set('Movie', JSON.stringify(tvSeries.data), 'EX', 60)
                     return data.deletedTvSeries
                 }
             }

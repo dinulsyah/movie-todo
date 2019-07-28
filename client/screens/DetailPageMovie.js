@@ -60,14 +60,16 @@ export default class Detail extends Component {
                              title='DELETE NOW'
                              onPress={() => {
                                 deleteMovie({
-                                    refetchQueries: [{
-                                        query: REFETCH_QUERY,
-                                        variables:{
-                                            awaitRefetchQueries: true
-                                        }
-                                    }]
+                                    // refetchQueries: [{
+                                    //     query: REFETCH_QUERY,
+                                    //     variables:{
+                                    //         awaitRefetchQueries: true
+                                    //     }
+                                    // }]
                                 })
-                                this.props.navigation.navigate('HomeMovie')
+                                this.props.navigation.navigate('HomeMovie',{
+                                    type:'mutate'
+                                })
                             }}/>
                         )}
                     </Mutation>

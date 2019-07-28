@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react'
-import { Text, View, StyleSheet, Image } from 'react-native'
+import { Text, View, StyleSheet, Image , ScrollView} from 'react-native'
 import CardItem from '../components/CardItem'
 import { SearchBar, Avatar, Header} from 'react-native-elements';
-
 
 export default class TvPage extends Component {
     constructor(props) {
@@ -37,7 +36,7 @@ export default class TvPage extends Component {
             );
         }
         return (
-            <Fragment>
+            <ScrollView>
                 <View style={styles.headContainer}>
                     <Text style={styles.title}>
                         EnterTainme.
@@ -66,7 +65,7 @@ export default class TvPage extends Component {
                         </View>
                     </View>
                 </View>
-            </Fragment>
+            </ScrollView>
         )
     }
 }
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: 'white',
-        fontFamily: 'Futura',
+        fontFamily: 'AlNile-Bold',
         fontSize: 30
     }
 })
