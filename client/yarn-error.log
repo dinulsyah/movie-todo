@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/ids/.nvm/versions/node/v11.13.0/bin/node /Users/ids/.yarn/bin/yarnpkg add expo-av@~5.0.2
+  /Users/ids/.nvm/versions/node/v11.13.0/bin/node /Users/ids/.yarn/bin/yarn.js add axios
 
 PATH: 
   /Users/ids/.yarn/bin:/Users/ids/.config/yarn/global/node_modules/.bin:/Users/ids/.nvm/versions/node/v11.13.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Wireshark.app/Contents/MacOS:/Users/ids/.yarn/bin:/Users/ids/.config/yarn/global/node_modules/.bin:/Users/ids/.nvm/versions/node/v11.13.0/bin:/Users/ids/Library/Android/sdk/emulator:/Users/ids/Library/Android/sdk/tools:/Users/ids/Library/Android/sdk/tools/bin:/Users/ids/Library/Android/sdk/platform-tools:/Users/ids/Library/Android/sdk/emulator:/Users/ids/Library/Android/sdk/tools:/Users/ids/Library/Android/sdk/tools/bin:/Users/ids/Library/Android/sdk/platform-tools
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/ids/Desktop/Phase3/pm/hibur-aku/client/node_modules/@babel/code-frame/LICENSE'
+  Error: EACCES: permission denied, mkdir '/Users/ids/Desktop/Phase3/pm/hibur-aku/client/node_modules/@babel/core/node_modules/ms'
 
 npm manifest: 
   {
@@ -29,11 +29,13 @@ npm manifest:
     "dependencies": {
       "apollo-boost": "^0.4.3",
       "expo": "^33.0.0",
+      "expo-av": "~5.0.2",
       "graphql": "^14.4.2",
       "react": "16.8.3",
       "react-apollo": "^2.5.8",
       "react-dom": "^16.8.6",
       "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
+      "react-native-awesome-alerts": "^1.2.0",
       "react-native-elements": "^1.1.0",
       "react-native-ionicons": "^4.6.1",
       "react-native-video": "^5.0.0",
@@ -4854,6 +4856,13 @@ Lockfile:
     version "3.0.4"
     resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
     integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+  
+  react-native-awesome-alerts@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/react-native-awesome-alerts/-/react-native-awesome-alerts-1.2.0.tgz#a19b105d5133e92712d865795d532cd3f1e4de2d"
+    integrity sha512-ouxDGJ/porNkuaeqpgxIJA4jAPqHC9bJIsxLA21NA6eZhnEhbqWOprjsNqwI0/7bJxXm9baTzXESCMzwAy3eZw==
+    dependencies:
+      prop-types "^15.5.10"
   
   react-native-branch@2.2.5:
     version "2.2.5"

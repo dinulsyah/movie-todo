@@ -25,8 +25,7 @@ export default class Detail extends Component {
 
     render(){
         if (this.props.data) {
-            const parse = JSON.parse(this.props.data)
-            var data = parse.findOneMovie
+            var data = this.props.data.findOneMovie
         }
         return (
             <ScrollView>

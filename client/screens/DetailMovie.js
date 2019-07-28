@@ -38,7 +38,7 @@ export default class Detail extends Component {
                         return(
                             <View>
                             { loading && <ActivityIndicator style={style.container} size="large" color="#e5e5e5"/>}
-                            { !loading && data &&  <DetailPage data={JSON.stringify(data)} navigation={this.props.navigation} item={itemId}></DetailPage>
+                            { !loading && data &&  <DetailPage data={data} navigation={this.props.navigation} item={itemId}></DetailPage>
                             }
                             {!loading && error && <Text>Failed to Get Data...</Text>}
                             </View>
