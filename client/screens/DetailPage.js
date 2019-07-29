@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import { Card, Button, Icon, Badge, PricingCard, Rating } from 'react-native-elements';
 import axios from 'axios';
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 const REFETCH_QUERY = gql`{
     allTvSeries{
@@ -21,6 +22,7 @@ export default class Detail extends Component {
         super(props)
         this.state = {
             youtubeId: '',
+            isDateTimePickerVisible: false,
         }
     }
 
@@ -41,7 +43,33 @@ export default class Detail extends Component {
             })
     }
 
+    handleDatePicked = date => {
+        axios
+            .post('http://localhost:3001/addFavorite',{
+                title:this.props.data.findOneTvSeries.title,
+                planDate:date,
+                poster_path:this.props.data.findOneTvSeries.poster_path
+            })
+            .then(({data}) => {
+                console.log(data)
+                this.hideDateTimePicker();
+            })
+            .catch((err) => {
+                this.hideDateTimePicker();
+            })
+      };
+
+    showDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: true });
+    };
+     
+    hideDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: false });
+    };
+
     render() {
+        const { showAlert } = this.state;
+        
         if (this.props.data) {
             var data = this.props.data.findOneTvSeries
         }
@@ -58,7 +86,7 @@ export default class Detail extends Component {
                     <Text style={style.title}>{data.title}</Text>
                     <View style={style.descriptionInfo}>
                         <Text style={style.description}>{data.overview}</Text>
-                        <Text style={{alignSelf:'center',color:'white'}}>Popularity</Text>
+                        <Text style={{ alignSelf: 'center', color: 'white' }}>Popularity</Text>
                         <Rating
                             imageSize={30}
                             readonly
@@ -109,6 +137,12 @@ export default class Detail extends Component {
                                 }} />
                         )}
                     </Mutation>
+                    <Button icon={<Icon name="movie" color='#ffffff' />} title="TvSeries to Watch" onPress={this.showDateTimePicker} style={{top:20}}/>
+                    <DateTimePicker
+                        isVisible={this.state.isDateTimePickerVisible}
+                        onConfirm={this.handleDatePicked}
+                        onCancel={this.hideDateTimePicker}
+                    />
                 </View>
             </ScrollView>
         )

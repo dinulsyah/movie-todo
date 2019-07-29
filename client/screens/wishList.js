@@ -1,34 +1,41 @@
-import React, { Component, Fragment } from 'react'
-import { Text, View, StyleSheet, Image, ScrollView } from 'react-native'
-import CardItemMovie from '../components/CardItemMovie'
-import { SearchBar, Avatar, Header} from 'react-native-elements';
+import React, { Component } from 'react';
+import { Text, View, StyleSheet, Image, ScrollView, Fragment } from 'react-native';
+import CardItemMovie from '../components/Cardwish'
+import { SearchBar, Avatar, Header } from 'react-native-elements';
+import axios from 'axios';
+import { NavigationEvents } from 'react-navigation'
 
-export default class TvPage extends Component {
+export default class wishList extends Component {
     constructor(props) {
         super(props)
         this.state = {
             text: '',
-            data:[]
+            data: []
         }
+        this.getData = this.getData.bind(this)
     }
 
-    componentDidMount(){
-        this.setState({
-            data:this.props.data
-        })
+    componentDidMount() {
+        this.getData()
     }
-    
-    componentDidUpdate(prevProps){
-        if (prevProps.data !== this.props.data) {
+
+    getData(){
+        console.log('masuk reload')
+        axios
+        .get(`http://localhost:3001/favorite`)
+        .then(({ data }) => {
             this.setState({
-                data:this.props.data
+                data:data
             })
-          }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 
     render() {
-        if (this.state.data.allMovie) {
-            var filteredItem = this.state.data.allMovie.filter(
+        if (this.state.data) {
+            var filteredItem = this.state.data.filter(
                 (item) => {
                     const Movies = item.title.toLowerCase()
                     return Movies.indexOf(this.state.text.toLowerCase()) !== -1;
@@ -37,18 +44,22 @@ export default class TvPage extends Component {
         }
         return (
             <ScrollView>
-            <Fragment>
+                <NavigationEvents
+                    onWillFocus={() => {
+                        this.getData()
+                    }}
+                />
                 <View style={styles.headContainer}>
                     <Text style={styles.title}>
                         EnterTainme.
                     </Text>
-                <Avatar
+                    <Avatar
                         rounded
                         source={{
                             uri:
                                 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
                         }}
-                />
+                    />
                 </View>
                 <SearchBar
                     onChangeText={(text) => this.setState({ text })}
@@ -60,13 +71,12 @@ export default class TvPage extends Component {
                         <View style={styles.bodyContainer}>
                             {
                                 filteredItem && filteredItem.map((element, index) => {
-                                    return <CardItemMovie item={element} navigation={this.props.navigation} key={index} index={index}></CardItemMovie>
+                                    return <CardItemMovie item={element} navigation={this.props.navigation} key={index} index={index} method={this.getData}></CardItemMovie>
                                 })
                             }
                         </View>
                     </View>
                 </View>
-            </Fragment>
             </ScrollView>
         )
     }
