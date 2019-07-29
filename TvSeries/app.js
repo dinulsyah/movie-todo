@@ -1,3 +1,6 @@
+require('dotenv').config()
+
+const cors = require('cors')
 const mongoose = require('mongoose')
 const express = require('express')
 const app = express()
@@ -6,13 +9,14 @@ const routes = require('./routes')
 const errorHandler = require('./helpers/errorHandler')
 
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://localhost:27017/tvseries',{ useNewUrlParser: true }, (err) => {
+mongoose.connect(process.env.DB_CONNECT,{ useNewUrlParser: true }, (err) => {
     if(err) console.log('database failed to connect..')
     else{
         console.log('database connection established')
     }
 })
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use('/',routes)

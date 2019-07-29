@@ -111,7 +111,7 @@ export default class HomeMovie extends Component {
                     confirmButtonColor="#0facf3"
                     showConfirmButton={true}
                     onConfirmPressed={() => {
-                        this.hideAlert();
+                        this.hideUpdate();
                     }}
                 />
             </View>

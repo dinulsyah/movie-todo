@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
-import { Card, Button, Icon, Badge} from 'react-native-elements'
+import { View, Text, StyleSheet, Image, ScrollView, WebView, Platform} from 'react-native';
+import { Card, Button, Icon, Badge, Rating} from 'react-native-elements'
 import { Mutation } from 'react-apollo';
 import { gql } from 'apollo-boost';
-
+import axios from 'axios';
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 const REFETCH_QUERY = gql`
 {
@@ -21,7 +22,52 @@ const REFETCH_QUERY = gql`
 export default class Detail extends Component {
     constructor(props){
         super(props)
+        this.state = {
+            youtubeId: '',
+            isDateTimePickerVisible: false,
+        }
     }
+
+    componentDidMount() {
+        axios
+            .get('http://localhost:3000/youtube', {
+                headers: {
+                    annotate: this.props.data.findOneMovie.title + 'trailer'
+                }
+            })
+            .then(({ data }) => {
+                this.setState({
+                    youtubeId: data.items[0].id.videoId
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    handleDatePicked = date => {
+        axios
+            .post('http://localhost:3001/addFavorite',{
+                title:this.props.data.findOneMovie.title,
+                planDate:date,
+                poster_path:this.props.data.findOneMovie.poster_path
+            })
+            .then(({data}) => {
+                console.log(data)
+                this.hideDateTimePicker();
+            })
+            .catch((err) => {
+                this.hideDateTimePicker();
+            })
+      };
+
+    showDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: true });
+    };
+     
+    hideDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: false });
+    };
 
     render(){
         if (this.props.data) {
@@ -40,7 +86,24 @@ export default class Detail extends Component {
                     <Text style={style.title}>{data.title}</Text>
                         <View style={style.descriptionInfo}> 
                         <Text style={style.description}>{data.overview}</Text>
-                        <Mutation mutation={gql`mutation{
+                        <Text style={{ alignSelf: 'center', color: 'white' }}>Popularity</Text>
+                        <Rating
+                            imageSize={30}
+                            readonly
+                            startingValue={data.popularity}
+                        />
+                        <View style={{ height: 300 }}>
+                            <WebView
+                                style={style.WebViewContainer}
+                                javaScriptEnabled={true}
+                                domStorageEnabled={true}
+                                source={{ uri: `https://www.youtube.com/embed/${this.state.youtubeId}` }}
+                            />
+                        </View>
+                    </View>
+                </View>
+                <View style={style.containerDesc2}>
+                    <Mutation mutation={gql`mutation{
                          deleteMovie(_id: "${this.props.item}"){
                             _id
                             title
@@ -72,8 +135,13 @@ export default class Detail extends Component {
                             }}/>
                         )}
                     </Mutation>
+                    <Button icon={<Icon name="movie" color='#ffffff' />} title="Movies to Watch" onPress={this.showDateTimePicker} style={{top:20}}/>
+                    <DateTimePicker
+                        isVisible={this.state.isDateTimePickerVisible}
+                        onConfirm={this.handleDatePicked}
+                        onCancel={this.hideDateTimePicker}
+                    />
                     </View>
-                </View>
             </ScrollView>
             )
     }
@@ -94,6 +162,14 @@ const style = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 40
     },
+    containerDesc2: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "#393D3F",
+        paddingTop: 20,
+        paddingBottom: 40
+    },
     title: {
         fontSize: 40,
         color: 'white',
@@ -111,4 +187,7 @@ const style = StyleSheet.create({
         justifyContent:"flex-start",
         fontFamily:'Futura',
     },
+    WebViewContainer: {
+        marginTop: (Platform.OS == 'ios') ? 20 : 0,
+    }
 })

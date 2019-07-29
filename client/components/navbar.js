@@ -6,7 +6,8 @@ import React from 'react';
 import TvDetail from '../screens/DetailSeries';
 import createPage from '../screens/createPage';
 import MovieDetail from '../screens/DetailMovie';
-import EditPage from '../screens/EditPage'
+import EditPage from '../screens/EditPage';
+import WishList from '../screens/wishList';
 
 const movieNavigator = createStackNavigator({
   HomeMovie:{
@@ -40,6 +41,14 @@ const createNavigator = createStackNavigator({
   }
 },{
   initialRouteName:'Create'
+})
+
+const wishNavigator = createStackNavigator({
+  Wish:{
+    screen:WishList,
+  }
+},{
+  initialRouteName:'Wish'
 })
 
 const mainNavigator = createBottomTabNavigator({
@@ -78,6 +87,18 @@ const mainNavigator = createBottomTabNavigator({
             />
         )
       })
+  },
+  Wish:{
+    screen:wishNavigator,
+    navigationOptions: () => ({
+      tabBarIcon: ({tintColor}) => (
+          <Icon
+              name="ios-paper-plane"
+              color={tintColor}
+              size={24}
+          />
+      )
+    })
   }
 },{
   tabBarOptions: {
