@@ -22,7 +22,7 @@ export default class wishList extends Component {
     getData(){
         console.log('masuk reload')
         axios
-        .get(`http://localhost:3001/favorite`)
+        .get(`http://34.87.41.89:3001/favorite`)
         .then(({ data }) => {
             this.setState({
                 data:data

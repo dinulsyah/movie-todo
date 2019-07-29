@@ -3,8 +3,8 @@ const movieSchema = require('./types/movies')
 const tvSchema = require('./types/tvseries')
 // const redis = require('redis')
 // const client = redis.createClient()
-const movieHost = 'http://localhost:3001/movies'
-const tvHost = 'http://localhost:3002/tv'
+const movieHost = 'http://34.87.41.89:3001/movies'
+const tvHost = 'http://34.87.41.89:3002/tv'
 const axios = require('axios')
 
 const Schema = new gql.GraphQLSchema({

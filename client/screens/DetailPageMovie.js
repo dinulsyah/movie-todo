@@ -47,7 +47,7 @@ export default class Detail extends Component {
 
     handleDatePicked = date => {
         axios
-            .post('http://localhost:3001/addFavorite',{
+            .post('http://34.87.41.89:3001/addFavorite',{
                 title:this.props.data.findOneMovie.title,
                 planDate:date,
                 poster_path:this.props.data.findOneMovie.poster_path

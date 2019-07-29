@@ -27,7 +27,7 @@ const CardItem = (props) => {
                         title='DELETE WISH'
                         onPress={ () => {
                             axios
-                                .delete(`http://localhost:3001/deleteFavorite/${props.item._id}`)
+                                .delete(`http://34.87.41.89:3001/deleteFavorite/${props.item._id}`)
                                 .then(({data}) => {
                                     console.log(data)
                                     props.method()
